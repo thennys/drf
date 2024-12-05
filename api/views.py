@@ -1,33 +1,13 @@
 from api.models import Todo
 from api.serializers import TodoSerializer
 
-from rest_framework import mixins
 from rest_framework import generics
 
-class Todolist(mixins.ListModelMixin,mixins.CreateModelMixin,
-               generics.GenericAPIView):
+class Todolist(generics.ListCreateAPIView):
     
     queryset = Todo.objects.all()
     serializer_class=TodoSerializer
 
-    def get(self, request, *args, **kwargs):
-         return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **Kwargs):
-         return self.create(request, *args, **Kwargs )
-
-class TodoDetail(mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    generics.GenericAPIView):
+class TodoDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
