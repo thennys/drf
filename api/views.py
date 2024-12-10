@@ -1,5 +1,6 @@
 from api.models import Todo
 from api.serializers import TodoSerializer, UserSerializer
+from api.permissions import IsOwnerOrReadOnly
 
 from rest_framework import generics
 from django.contrib.auth.models import User
@@ -18,7 +19,7 @@ class TodoList(generics.ListCreateAPIView):
 class TodoDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
