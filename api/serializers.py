@@ -2,12 +2,12 @@ from rest_framework import serializers
 from api.models import Todo
 from django.contrib.auth.models import User
 
-class TodoSerializer(serializers.ModelSerializer):
+class TodoSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:    
         model = Todo
-        fields = ['id', 'title', 'tasks','done', 'owner' ]
+        fields = ['url','id', 'title', 'tasks','done', 'owner' ]
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -15,4 +15,6 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'todos']
+        fields = ['url', 'id', 'username', 'todos']
+
+        

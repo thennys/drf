@@ -3,9 +3,20 @@ from api.serializers import TodoSerializer, UserSerializer
 from api.permissions import IsOwnerOrReadOnly
 
 from rest_framework import generics
+from rest_framework import permissions
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+
 from django.contrib.auth.models import User
 
-from rest_framework import permissions
+
+
+def api_root(request, format=None):
+    return Response({
+        'users' : reverse('user-list', request=request, format=format),
+        'todos': reverse('todo-list', request=request, format=format)
+    })
 
 
 class TodoList(generics.ListCreateAPIView):
