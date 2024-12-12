@@ -1,32 +1,12 @@
-from django.urls import path
-from rest_framework.urlpatterns import format_suffix_patterns
-from api.views import TodoViewSet, UserViewSet, api_root
+from django.urls import path, include
+from api import views
+from rest_framework.routers import DefaultRouter
 
-todo_list = TodoViewSet.as_view({
-    'get': 'list',
-    'post': 'create'
-})
 
-todo_detail = TodoViewSet.as_view({
-    'get': 'retrieve',
-    'put': 'update',
-    'patch': 'partial_update',
-    'delete': 'destroy'
-})
+router = DefaultRouter()
+router.register(r'todos', views.TodoViewSet, basename='todo')
+router.register(r'users', views.UserViewSet, basename='user')
 
-user_list = UserViewSet.as_view({
-    'get': 'list'
-})
-user_detail = UserViewSet.as_view({
-    'get': 'retrieve'
-})
 urlpatterns = [
-    path('api/', api_root),
-    path('', todo_list, name='todo-list'),
-    path('<int:pk>', todo_detail, name='todo-detail'),
-    path('users/', user_list, name='user-list'),
-    path('users/<int:pk>/', user_detail, name='user-detail'),
-
+    path('', include(router.urls)),
 ]
-
-urlpatterns=format_suffix_patterns(urlpatterns)

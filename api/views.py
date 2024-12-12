@@ -14,14 +14,6 @@ from rest_framework.decorators import action
 from django.contrib.auth.models import User
 
 
-
-def api_root(request, format=None):
-    return Response({
-        'users' : reverse('user-list', request=request, format=format),
-        'todos': reverse('todo-list', request=request, format=format)
-    })
-
-
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
